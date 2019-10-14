@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%-include("../components/headers")-%>
+    <title>Login</title>
+</head>
+<body>
+    <!-- style -->
+    <style>
+        .login{
+            margin-top:80px;
+        }
+    </style>
+    <!-- template -->
+    <div id="App">
+        <!-- loading -->
+        <%-include("../components/loading")-%>
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="login">
+                        <form action="" class="form-horizontal" v-on:submit.prevent="postLogin">
+                            <div class="form-group">
+                                <label for="">Email or Username</label>
+                                <input type="text" required class="form-control" v-model="login_data.username" placeholder="Email or username">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Password</label>
+                                <input type="password" required class="form-control" v-model="login_data.password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-block" type="button" onclick="window.history.back()">Kembali</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let app = new Vue({
+        el:'#App',
+        data:{
+            login_data:{
+                username:"",
+                password:""
+            }
+        },
+        methods: {
+            async postLogin()
+            {
+                $("#modal-loading").modal("show")
+                let response = await fetch(`/api/login`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(this.login_data)
+                })
+            }
+        },
+        created() {
+            // alert("hello world")
+        },
+    })
+</script>
+</html>
